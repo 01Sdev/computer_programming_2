@@ -4,7 +4,7 @@ def fun_input():
     meeting_count = int(input("이번 달에 약속된 밥약의 개수: "))
     transport_count = int(input("보통 한 달에 대중교통 활용 개수: "))
     salary -= monthly_rent
-    return [salary, pocket_money, meeting_count, transport_count]        # 월금을 활용하여 밥약의 개수, 교통비
+    return [salary, pocket_money, meeting_count, transport_count]        # 월급을 활용하여 밥약의 개수, 교통비
 
 def fun_salary(salary, meeting_count, transport_count):        # 월급을 사용하는 소비
     rest_meetings = 0        # 밥약이 식비를 넘을 경우 식비를 최대한 사용하여, 나머지 약속은 용돈을 쓰기 위한 나머지 값
