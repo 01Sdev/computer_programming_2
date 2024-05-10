@@ -4,7 +4,7 @@ def fun_input():
     meeting_count = int(input("이번 달에 약속된 밥약의 개수: "))
     transport_count = int(input("보통 한 달에 대중교통 활용 개수: "))
     salary -= monthly_rent
-    return [salary, pocket_money, meeting_count, transport_count]        # 월급을 활용하여 밥약의 개수, 교통비
+    return [salary, pocket_money, meeting_count, transport_count]        # 입룍 함수
 
 def fun_salary(salary, meeting_count, transport_count):        # 월급을 사용하는 소비
     rest_meetings = 0        # 밥약이 식비를 넘을 경우 식비를 최대한 사용하여, 나머지 약속은 용돈을 쓰기 위한 나머지 값
@@ -14,8 +14,9 @@ def fun_salary(salary, meeting_count, transport_count):        # 월급을 사�
     transportation_expenses = salary * 0.25     # 교통비
     print("생활비 = ", living_expenses, "원")
     eat_out_meetings = meeting_count * 30000        # 약속 1당 30,000원
-    if eat_out_meetings > meal_expenses:        # 밥약 소비가 식비를 넘는 경우 식비를 쓰고 나갈 수 있는 밥약 개수를 계산한 다음 나머지 밥약은 "용돈 -> 기타 소비"를 씀
-        meeting = eat_out_meetings - meal_expenses
+    if eat_out_meetings > meal_expenses:        # 나머지 밥약은 "용돈 -> 기타 소비"를 씀 
+
+        meeting_count = eat_out_meetings - meal_expenses
         print("밥약 = ", int(meal_expenses), "원")
         print("식비 = 0 원")
     else:
@@ -31,7 +32,7 @@ def fun_salary(salary, meeting_count, transport_count):        # 월급을 사�
     else:
         print("교통비 = ", int(transportation_expenses), "원")
     print("저금 = ", int(salary_savings), "원")
-    return meeting_count        # 밥약이 정해진 넘을 경우 용돈을 사용하여 남은 밥약 개수 계산
+    return meeting_count        # 밥약이 정해진 식비를 넘을 경우 용돈을 사용하여 남은 밥약 개수 계산
 
 def fun_pocket_money(pocket_money, meeting_expenses):                       # 용돈 계산 함수
     drinks = pocket_money * 0.5                                    # 음료 소비
@@ -47,5 +48,5 @@ def fun_pocket_money(pocket_money, meeting_expenses):                       # �
 
 print("본 프로그램은 생활비를 예산하는 프로그램입니다.")
 values = fun_input()        # fun_input함수에서 meeting함수와 pocket_money_savings함수에 넣어야 할 매개변수
-meeting = fun_salary(values[0], values[2], values[3])
-pocket_money_savings = fun_pocket_money(values[1], meeting)
+meeting_expenses = fun_salary(values[0], values[2], values[3])
+pocket_money_savings = fun_pocket_money(values[1], meeting_expenses)
