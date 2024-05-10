@@ -1,0 +1,51 @@
+def fun_input():
+    salary, pocket_money = map(int, input("본인의 월급과 용돈 각각의 금액을 입력해 주십시오: ").split())
+    monthly_rent = int(input("월세 금액: "))
+    meeting_count = int(input("이번 달에 약속된 밥약의 개수: "))
+    transport_count = int(input("보통 한 달에 대중교통 활용 개수: "))
+    salary -= monthly_rent
+    return [salary, pocket_money, meeting_count, transport_count]        # 월금을 활용하여 밥약의 개수, 교통비
+
+def fun_salary(salary, meeting_count, transport_count):        # 월급을 사용하는 소비
+    rest_meetings = 0        # 밥약이 식비를 넘을 경우 식비를 최대한 사용하여, 나머지 약속은 용돈을 쓰기 위한 나머지 값
+    salary_savings = salary * 0.05        # 저금에 무조건 월급의 5%를 넣는다
+    living_expenses = salary * 0.25        # 기타 생활비 (위행용품, 옷, 화장품 등등)
+    meal_expenses = salary * 0.45       # 식비 (밥약, 식료품 소비 포함)
+    transportation_expenses = salary * 0.25     # 교통비
+    print("생활비 = ", living_expenses, "원")
+    eat_out_meetings = meeting_count * 30000        # 약속 1당 30,000원
+    if eat_out_meetings > meal_expenses:        # 밥약 소비가 식비를 넘는 경우 식비를 쓰고 나갈 수 있는 밥약 개수를 계산한 다음 나머지 밥약은 "용돈 -> 기타 소비"를 씀
+        meeting = eat_out_meetings - meal_expenses
+        print("밥약 = ", int(meal_expenses), "원")
+        print("식비 = 0 원")
+    else:
+        groceries = meal_expenses - eat_out_meetings        # 식료품 소비는 밥약의 남은 금액
+        print("밥약 = ", int(eat_out_meetings), "원")
+        print("식비 = ", int(groceries), "원")
+    
+    transport_count =  transport_count * 1600        # 대중 교통을 사용하는 개수를 기본 요금에 곱하고 1달에 필요한 교통비 구함
+    if transport_count > transportation_expenses:
+        transport_count = (transport_count - transportation_expenses) / 1600        # 한달에 필요한 교통비가 사용자에게 있는 금액을 넘으면 몇번 걸어가야 하는지 계산
+        print("교통비 = ", int(transportation_expenses))
+        print(int(transport_count), "번 걸어야 합니다ㅠㅠ")
+    else:
+        print("교통비 = ", int(transportation_expenses), "원")
+    print("저금 = ", int(salary_savings), "원")
+    return meeting_count        # 밥약이 정해진 넘을 경우 용돈을 사용하여 남은 밥약 개수 계산
+
+def fun_pocket_money(pocket_money, meeting_expenses):                       # 용돈 계산 함수
+    drinks = pocket_money * 0.5                                    # 음료 소비
+    etc = pocket_money * 0.5                                       # 기타 소비
+    print("음료 = ", int(drinks), "원")
+    while (etc - meeting_expenses) < 0:        # 밥약에 드는 비용이 기타 소비를 넘을 경우 밥약의 개수 줄임
+        eat_out_meeting = meeting_expenses / 30000
+        eat_out_meeting = int(input("밥약의 개수를 줄이세요: "))
+        meeting_expenses = eat_out_meeting * 30000
+    etc = etc - meeting_expenses        # 남은 기타 소비 금액 계산
+    print("기타 소비 = ", int(etc), "원")
+    return print("기타 소비에서 남은 돈은 꼭 저금에 넣어주세요!")
+
+print("본 프로그램은 생활비를 예산하는 프로그램입니다.")
+values = fun_input()        # fun_input함수에서 meeting함수와 pocket_money_savings함수에 넣어야 할 매개변수
+meeting = fun_salary(values[0], values[2], values[3])
+pocket_money_savings = fun_pocket_money(values[1], meeting)
